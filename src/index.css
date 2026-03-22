@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --ink: #1C1917;
+    --soft-brown: #78716C;
+    --gold: #C9A84C;
+    --gold-light: #F5E6B8;
+    --sage: #7C9A7E;
+    --rose: #C47B73;
+    --border: #E8E0D5;
+    --chart-1: #C9A84C;
+    --chart-2: #7C9A7E;
+    --chart-3: #9B7FB6;
+    --chart-4: #6B9EC7;
+    --chart-5: #C47B73;
+    --chart-6: #C4956A;
+  }
+
+  html {
+    min-width: 1280px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-mono, .tabular-nums {
+    font-family: 'DM Mono', monospace;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-warm-white rounded-2xl border border-border shadow-sm;
+  }
+
+  .kpi-card {
+    @apply card border-l-4 border-l-gold p-5;
+  }
+
+  .btn-primary {
+    @apply bg-gold text-white font-medium px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors;
+  }
+
+  .btn-ghost {
+    @apply text-soft-brown hover:text-ink hover:bg-cream px-3 py-2 rounded-lg transition-colors;
+  }
+
+  .tab-btn {
+    @apply px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200;
+  }
+
+  .tab-btn-active {
+    @apply bg-gold text-white shadow-sm;
+  }
+
+  .tab-btn-inactive {
+    @apply text-soft-brown hover:text-ink hover:bg-cream;
+  }
+
+  .trend-up {
+    color: var(--sage);
+  }
+
+  .trend-down {
+    color: var(--rose);
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, #F0EBE3 25%, #FAF7F2 50%, #F0EBE3 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-in {
+    animation: slideIn 0.25s ease-out;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  .table-row-alt:nth-child(even) {
+    background-color: var(--cream);
+  }
+
+  .table-row-alt:nth-child(odd) {
+    background-color: var(--warm-white);
+  }
+}
