@@ -117,7 +117,7 @@ export default function ListingsTab({ records }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Summary cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="kpi-card">
           <p className="text-xs font-medium uppercase tracking-widest text-soft-brown font-sans">Total Records</p>
           <p className="text-3xl font-mono text-ink">{fmtNum(records.length)}</p>
@@ -167,7 +167,7 @@ export default function ListingsTab({ records }) {
       </div>
 
       {/* Charts row */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Top listings by revenue */}
         <div className="card p-5">
           <h3 className="text-sm font-serif text-ink mb-4">Top Listings by Revenue</h3>
@@ -248,7 +248,7 @@ export default function ListingsTab({ records }) {
 
       {/* Table */}
       <div className="card p-5">
-        <div className="flex items-center justify-between mb-4 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
           <h3 className="text-sm font-serif text-ink">
             Listing Records {selectedListing !== '__all__' ? `— ${selectedListing}` : ''}
             <span className="text-soft-brown text-xs font-sans ml-2">({filteredRecords.length})</span>
@@ -258,7 +258,7 @@ export default function ListingsTab({ records }) {
             placeholder="Filter by listing name…"
             value={filterText}
             onChange={e => setFilterText(e.target.value)}
-            className="border border-border rounded-lg px-3 py-1.5 text-sm bg-cream focus:outline-none focus:border-gold font-sans w-56"
+            className="border border-border rounded-lg px-3 py-1.5 text-sm bg-cream focus:outline-none focus:border-gold font-sans w-full sm:w-56"
           />
         </div>
         <SortableTable columns={tableCols} rows={tableRows} rowKey="id" noteKey="notes" />

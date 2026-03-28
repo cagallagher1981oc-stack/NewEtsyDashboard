@@ -74,7 +74,7 @@ export default function MonthlyTab({ records }) {
   return (
     <div className="flex flex-col gap-6">
       {/* KPI row */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <KPICard label="Revenue" value={f(latest, 'Revenue')} prev={f(prev, 'Revenue')} format={fmtGBP}
           subtitle={fmtMonthYear(latest.fields?.['Month'])} />
         <KPICard label="Orders" value={f(latest, 'Orders')} prev={f(prev, 'Orders')} format={fmtNum} />
@@ -83,7 +83,7 @@ export default function MonthlyTab({ records }) {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card p-5">
           <h3 className="text-sm font-serif text-ink mb-4">Revenue Trend</h3>
           <ResponsiveContainer width="100%" height={220}>

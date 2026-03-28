@@ -21,10 +21,6 @@
     --chart-6: #C4956A;
   }
 
-  html {
-    min-width: 1280px;
-  }
-
   body {
     font-family: 'DM Sans', sans-serif;
     background-color: var(--cream);

@@ -102,7 +102,7 @@ export default function WeeklyTab({ records }) {
   return (
     <div className="flex flex-col gap-6">
       {/* KPI Row */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <KPICard label="Visits" value={f(latest, 'Visits')} prev={f(prev, 'Visits')} format={fmtNum}
           subtitle={`Week ${f(latest, 'Week No')}`} />
         <KPICard label="Orders" value={f(latest, 'Orders')} prev={f(prev, 'Orders')} format={fmtNum} />
@@ -111,7 +111,7 @@ export default function WeeklyTab({ records }) {
       </div>
 
       {/* Charts row */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Visits line chart */}
         <div className="card p-5">
           <h3 className="text-sm font-serif text-ink mb-4">Visits — Last 12 Weeks</h3>
@@ -161,7 +161,7 @@ export default function WeeklyTab({ records }) {
       </div>
 
       {/* Traffic donut */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card p-5">
           <h3 className="text-sm font-serif text-ink mb-4">Traffic Sources — Week {f(latest, 'Week No')}</h3>
           {trafficData.length > 0 ? (
@@ -211,9 +211,9 @@ export default function WeeklyTab({ records }) {
         </div>
 
         {/* Additional stats */}
-        <div className="card p-5 col-span-2">
+        <div className="card p-5 md:col-span-2">
           <h3 className="text-sm font-serif text-ink mb-4">Latest Week Details — Week {f(latest, 'Week No')}</h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {[
               { label: 'Favourites', val: fmtNum(f(latest, 'Favourites')) },
               { label: 'Shop Follows', val: fmtNum(f(latest, 'Shop Follows')) },
