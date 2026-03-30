@@ -40,7 +40,10 @@ export default function WeeklyTab({ records }) {
     visits: f(r, 'Visits'),
     orders: f(r, 'Orders'),
     revenue: f(r, 'Revenue'),
+    cvr: f(r, 'Conversion Rate'),
+    favourites: f(r, 'Favourites'),
     isSale: r.fields?.['Sale Week'] ? true : false,
+    ...Object.fromEntries(TRAFFIC_KEYS.map(t => [t.key, f(r, t.key)])),
   })), [last12])
 
   const trafficData = useMemo(() => {
@@ -156,6 +159,77 @@ export default function WeeklyTab({ records }) {
               <Bar yAxisId="left" dataKey="orders" fill={CHART_COLORS[1]} name="Orders" radius={[3, 3, 0, 0]} />
               <Bar yAxisId="right" dataKey="revenue" fill={CHART_COLORS[0]} name="Revenue" radius={[3, 3, 0, 0]} />
             </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Traffic sources trend */}
+      <div className="card p-5">
+        <h3 className="text-sm font-serif text-ink mb-4">Traffic Sources — Last 12 Weeks</h3>
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+            <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} />
+            <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} />
+            <Tooltip content={<CustomTooltip formatters={Object.fromEntries(TRAFFIC_KEYS.map(t => [t.key, fmtNum]))} />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
+            {TRAFFIC_KEYS.map(t => (
+              <Line
+                key={t.key}
+                type="monotone"
+                dataKey={t.key}
+                name={t.label}
+                stroke={t.color}
+                strokeWidth={2}
+                dot={{ r: 2 }}
+                activeDot={{ r: 4 }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* CVR + Favourites trend */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="card p-5">
+          <h3 className="text-sm font-serif text-ink mb-4">Conversion Rate — Last 12 Weeks</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+              <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} />
+              <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} tickFormatter={v => `${v}%`} />
+              <Tooltip content={<CustomTooltip formatters={{ cvr: fmtPct }} />} />
+              <Line
+                type="monotone"
+                dataKey="cvr"
+                name="CVR"
+                stroke={CHART_COLORS[2]}
+                strokeWidth={2}
+                dot={{ r: 3, fill: CHART_COLORS[2] }}
+                activeDot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="card p-5">
+          <h3 className="text-sm font-serif text-ink mb-4">Favourites — Last 12 Weeks</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+              <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} />
+              <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} />
+              <Tooltip content={<CustomTooltip formatters={{ favourites: fmtNum }} />} />
+              <Line
+                type="monotone"
+                dataKey="favourites"
+                name="Favourites"
+                stroke={CHART_COLORS[4]}
+                strokeWidth={2}
+                dot={{ r: 3, fill: CHART_COLORS[4] }}
+                activeDot={{ r: 5 }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
