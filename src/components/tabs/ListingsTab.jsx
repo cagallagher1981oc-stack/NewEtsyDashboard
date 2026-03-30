@@ -10,9 +10,9 @@ import CustomTooltip from '../ui/CustomTooltip.jsx'
 import { fmtGBP, fmtNum, fmtPct, fmtDateRange, CHART_COLORS } from '../../utils/formatters.js'
 
 const TRAFFIC_KEYS = [
-  { key: 'Etsy App & Other Pages', label: 'Etsy App & Pages', color: CHART_COLORS[0] },
+  { key: 'Etsy App & other Etsy Pages', label: 'Etsy App & Pages', color: CHART_COLORS[0] },
   { key: 'Etsy Search', label: 'Etsy Search', color: CHART_COLORS[1] },
-  { key: 'Etsy Marketing & SEO', label: 'Etsy Marketing', color: CHART_COLORS[2] },
+  { key: 'Etsy Marketing and SEO', label: 'Etsy Marketing', color: CHART_COLORS[2] },
   { key: 'Direct & Other Traffic', label: 'Direct & Other', color: CHART_COLORS[3] },
   { key: 'Social Media', label: 'Social Media', color: CHART_COLORS[4] },
   { key: 'Etsy Ads', label: 'Etsy Ads', color: CHART_COLORS[5] },
@@ -96,7 +96,7 @@ export default function ListingsTab({ records }) {
     sold: f(r, 'Sold'),
     revenue: f(r, 'Revenue'),
     cvr: f(r, 'Conversion Rate'),
-    etsyApp: f(r, 'Etsy App & Other Pages'),
+    etsyApp: f(r, 'Etsy App & other Etsy Pages'),
     etsySearch: f(r, 'Etsy Search'),
     social: f(r, 'Social Media'),
     notes: r.fields?.['Notes'],

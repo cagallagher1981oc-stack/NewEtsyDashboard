@@ -9,7 +9,7 @@ import CustomTooltip from '../ui/CustomTooltip.jsx'
 import { fmtGBP, fmtNum, fmtPct, fmtDate, fmtDateRange, CHART_COLORS } from '../../utils/formatters.js'
 
 const TRAFFIC_KEYS = [
-  { key: 'Etsy App & Other Pages', label: 'Etsy App & Pages', color: CHART_COLORS[0] },
+  { key: 'Etsy app & other Etsy Pages', label: 'Etsy App & Pages', color: CHART_COLORS[0] },
   { key: 'Etsy Search', label: 'Etsy Search', color: CHART_COLORS[1] },
   { key: 'Etsy Marketing & SEO', label: 'Etsy Marketing', color: CHART_COLORS[2] },
   { key: 'Direct & Other Traffic', label: 'Direct & Other', color: CHART_COLORS[3] },

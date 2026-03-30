@@ -10,12 +10,12 @@ import CustomTooltip from '../ui/CustomTooltip.jsx'
 import { fmtGBP, fmtNum, fmtPct, fmtMonthYear, fmtDateRange, CHART_COLORS } from '../../utils/formatters.js'
 
 const TRAFFIC_KEYS = [
-  { key: 'Traffic — Etsy App', label: 'Etsy App', color: CHART_COLORS[0] },
-  { key: 'Traffic — Etsy Search', label: 'Etsy Search', color: CHART_COLORS[1] },
-  { key: 'Traffic — Etsy Marketing', label: 'Etsy Marketing', color: CHART_COLORS[2] },
-  { key: 'Traffic — Direct', label: 'Direct', color: CHART_COLORS[3] },
-  { key: 'Traffic — Social', label: 'Social', color: CHART_COLORS[4] },
-  { key: 'Traffic — Etsy Ads', label: 'Etsy Ads', color: CHART_COLORS[5] },
+  { key: 'Traffic from Etsy App', label: 'Etsy App', color: CHART_COLORS[0] },
+  { key: 'Traffic from Etsy Search', label: 'Etsy Search', color: CHART_COLORS[1] },
+  { key: 'Traffic from Etsy Marketing', label: 'Etsy Marketing', color: CHART_COLORS[2] },
+  { key: 'Traffic from Direct', label: 'Direct', color: CHART_COLORS[3] },
+  { key: 'Traffic from Social', label: 'Social', color: CHART_COLORS[4] },
+  { key: 'Traffic from Etsy Ads', label: 'Etsy Ads', color: CHART_COLORS[5] },
 ]
 
 function sortByMonth(records) {
