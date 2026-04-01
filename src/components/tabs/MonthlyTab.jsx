@@ -128,6 +128,32 @@ export default function MonthlyTab({ records }) {
         </ResponsiveContainer>
       </div>
 
+      {/* Traffic sources trend line chart */}
+      <div className="card p-5">
+        <h3 className="text-sm font-serif text-ink mb-4">Traffic Source Trends by Month</h3>
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+            <XAxis dataKey="month" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
+            <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} />
+            <Tooltip content={<CustomTooltip formatters={Object.fromEntries(TRAFFIC_KEYS.map(t => [t.key, fmtNum]))} />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
+            {TRAFFIC_KEYS.map(t => (
+              <Line
+                key={t.key}
+                type="monotone"
+                dataKey={t.key}
+                name={t.label}
+                stroke={t.color}
+                strokeWidth={2}
+                dot={{ r: 2 }}
+                activeDot={{ r: 4 }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
       {/* Table */}
       <div className="card p-5">
         <h3 className="text-sm font-serif text-ink mb-4">All Monthly Data</h3>
