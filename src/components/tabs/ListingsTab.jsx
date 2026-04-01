@@ -228,22 +228,36 @@ export default function ListingsTab({ records }) {
 
       {/* Listing history chart (only when one selected) */}
       {selectedListing !== '__all__' && selectedListingChartData.length > 0 && (
-        <div className="card p-5">
-          <h3 className="text-sm font-serif text-ink mb-4">History — {selectedListing}</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={selectedListingChartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
-              <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={40} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={65} tickFormatter={v => `£${v}`} />
-              <Tooltip content={<CustomTooltip formatters={{ visits: fmtNum, sold: fmtNum, revenue: fmtGBP }} />} />
-              <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
-              <Line yAxisId="left" type="monotone" dataKey="visits" stroke={CHART_COLORS[1]} strokeWidth={2} name="Visits" dot={{ r: 3 }} />
-              <Line yAxisId="left" type="monotone" dataKey="sold" stroke={CHART_COLORS[4]} strokeWidth={2} name="Sold" dot={{ r: 3 }} />
-              <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={CHART_COLORS[0]} strokeWidth={2} name="Revenue" dot={{ r: 3 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <>
+          <div className="card p-5">
+            <h3 className="text-sm font-serif text-ink mb-4">History — {selectedListing}</h3>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={selectedListingChartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+                <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
+                <YAxis yAxisId="left" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={40} />
+                <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={65} tickFormatter={v => `£${v}`} />
+                <Tooltip content={<CustomTooltip formatters={{ visits: fmtNum, revenue: fmtGBP }} />} />
+                <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
+                <Line yAxisId="left" type="monotone" dataKey="visits" stroke={CHART_COLORS[1]} strokeWidth={2} name="Visits" dot={{ r: 3 }} />
+                <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={CHART_COLORS[0]} strokeWidth={2} name="Revenue" dot={{ r: 3 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="card p-5">
+            <h3 className="text-sm font-serif text-ink mb-4">Units Sold — {selectedListing}</h3>
+            <ResponsiveContainer width="100%" height={160}>
+              <BarChart data={selectedListingChartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+                <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
+                <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={40} allowDecimals={false} />
+                <Tooltip content={<CustomTooltip formatters={{ sold: fmtNum }} />} />
+                <Bar dataKey="sold" name="Sold" fill={CHART_COLORS[4]} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </>
       )}
 
       {/* Table */}
