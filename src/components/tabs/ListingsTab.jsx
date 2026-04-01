@@ -67,16 +67,13 @@ export default function ListingsTab({ records }) {
     return recs.sort((a, b) => new Date(a.fields?.['Start Date'] ?? 0) - new Date(b.fields?.['Start Date'] ?? 0))
   }, [records, selectedListing, filterText])
 
-  // Chart: selected listing visits over time
-  const selectedListingChartData = useMemo(() => {
-    if (selectedListing === '__all__') return []
-    return filteredRecords.map(r => ({
-      date: fmtDateRange(r.fields?.['Start Date'], r.fields?.['End Date']),
-      visits: f(r, 'Visits'),
-      sold: f(r, 'Sold'),
-      revenue: f(r, 'Revenue'),
-    }))
-  }, [filteredRecords, selectedListing])
+  // Chart data: visits, revenue, sold per period
+  const historyChartData = useMemo(() => filteredRecords.map(r => ({
+    date: fmtDateRange(r.fields?.['Start Date'], r.fields?.['End Date']),
+    visits: f(r, 'Visits'),
+    sold: f(r, 'Sold'),
+    revenue: f(r, 'Revenue'),
+  })), [filteredRecords])
 
   // Traffic donut for selected listing
   const trafficDonutData = useMemo(() => {
@@ -226,39 +223,40 @@ export default function ListingsTab({ records }) {
         </div>
       </div>
 
-      {/* Listing history chart (only when one selected) */}
-      {selectedListing !== '__all__' && selectedListingChartData.length > 0 && (
-        <>
-          <div className="card p-5">
-            <h3 className="text-sm font-serif text-ink mb-4">History — {selectedListing}</h3>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={selectedListingChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
-                <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
-                <YAxis yAxisId="left" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={40} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={65} tickFormatter={v => `£${v}`} />
-                <Tooltip content={<CustomTooltip formatters={{ visits: fmtNum, revenue: fmtGBP }} />} />
-                <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
-                <Line yAxisId="left" type="monotone" dataKey="visits" stroke={CHART_COLORS[1]} strokeWidth={2} name="Visits" dot={{ r: 3 }} />
-                <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={CHART_COLORS[0]} strokeWidth={2} name="Revenue" dot={{ r: 3 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+      {/* Visits & Revenue line chart */}
+      <div className="card p-5">
+        <h3 className="text-sm font-serif text-ink mb-4">
+          Visits &amp; Revenue{selectedListing !== '__all__' ? ` — ${selectedListing}` : ' — All Listings'}
+        </h3>
+        <ResponsiveContainer width="100%" height={220}>
+          <LineChart data={historyChartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+            <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
+            <YAxis yAxisId="left" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} />
+            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={65} tickFormatter={v => `£${v}`} />
+            <Tooltip content={<CustomTooltip formatters={{ visits: fmtNum, revenue: fmtGBP }} />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
+            <Line yAxisId="left" type="monotone" dataKey="visits" stroke={CHART_COLORS[1]} strokeWidth={2} name="Visits" dot={{ r: 3 }} activeDot={{ r: 5 }} />
+            <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={CHART_COLORS[0]} strokeWidth={2} name="Revenue" dot={{ r: 3 }} activeDot={{ r: 5 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
 
-          <div className="card p-5">
-            <h3 className="text-sm font-serif text-ink mb-4">Units Sold — {selectedListing}</h3>
-            <ResponsiveContainer width="100%" height={160}>
-              <BarChart data={selectedListingChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
-                <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
-                <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={40} allowDecimals={false} />
-                <Tooltip content={<CustomTooltip formatters={{ sold: fmtNum }} />} />
-                <Bar dataKey="sold" name="Sold" fill={CHART_COLORS[4]} radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </>
-      )}
+      {/* Units sold bar chart */}
+      <div className="card p-5">
+        <h3 className="text-sm font-serif text-ink mb-4">
+          Units Sold{selectedListing !== '__all__' ? ` — ${selectedListing}` : ' — All Listings'}
+        </h3>
+        <ResponsiveContainer width="100%" height={180}>
+          <BarChart data={historyChartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
+            <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: 'DM Mono' }} />
+            <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} allowDecimals={false} />
+            <Tooltip content={<CustomTooltip formatters={{ sold: fmtNum }} />} />
+            <Bar dataKey="sold" name="Sold" fill={CHART_COLORS[4]} radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
 
       {/* Table */}
       <div className="card p-5">
