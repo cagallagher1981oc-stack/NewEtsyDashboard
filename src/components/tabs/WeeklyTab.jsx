@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -27,6 +27,16 @@ function sortByWeek(records) {
 
 export default function WeeklyTab({ records }) {
   const sorted = useMemo(() => sortByWeek(records), [records])
+  const [hiddenTraffic, setHiddenTraffic] = useState(new Set())
+
+  const toggleTraffic = (key) => {
+    setHiddenTraffic(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
 
   const latest = sorted[sorted.length - 1]
   const prev = sorted[sorted.length - 2]
@@ -165,15 +175,41 @@ export default function WeeklyTab({ records }) {
 
       {/* Traffic sources trend */}
       <div className="card p-5">
-        <h3 className="text-sm font-serif text-ink mb-4">Traffic Sources — Last 12 Weeks</h3>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h3 className="text-sm font-serif text-ink">Traffic Sources — Last 12 Weeks</h3>
+          <div className="flex flex-wrap gap-2">
+            {TRAFFIC_KEYS.map(t => {
+              const isHidden = hiddenTraffic.has(t.key)
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => toggleTraffic(t.key)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-sans border transition-all ${
+                    isHidden
+                      ? 'border-stone-200 bg-cream opacity-40'
+                      : 'border-stone-200 bg-cream opacity-100'
+                  }`}
+                  title={isHidden ? `Show ${t.label}` : `Hide ${t.label}`}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                    style={{ background: isHidden ? '#ccc' : t.color }}
+                  />
+                  <span className={isHidden ? 'text-soft-brown line-through' : 'text-ink'}>
+                    {t.label}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E8E0D5" />
             <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: 'DM Mono' }} />
             <YAxis tick={{ fontSize: 11, fontFamily: 'DM Mono' }} width={45} />
             <Tooltip content={<CustomTooltip formatters={Object.fromEntries(TRAFFIC_KEYS.map(t => [t.key, fmtNum]))} />} />
-            <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'DM Sans' }} />
-            {TRAFFIC_KEYS.map(t => (
+            {TRAFFIC_KEYS.filter(t => !hiddenTraffic.has(t.key)).map(t => (
               <Line
                 key={t.key}
                 type="monotone"
@@ -187,6 +223,11 @@ export default function WeeklyTab({ records }) {
             ))}
           </LineChart>
         </ResponsiveContainer>
+        {hiddenTraffic.size > 0 && (
+          <p className="text-xs text-soft-brown mt-2 font-sans">
+            {hiddenTraffic.size} source{hiddenTraffic.size > 1 ? 's' : ''} hidden — click to restore
+          </p>
+        )}
       </div>
 
       {/* CVR + Favourites trend */}
